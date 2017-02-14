@@ -1,6 +1,6 @@
 var Promise = require('promise');
 var EventEmitter = require('events').EventEmitter;
-var request = require('request');
+// var request = require('request');
 var version = '1.0.2';
 
 var Audiosearch = function (oauthKey, oauthSecret, oauthHost) {
@@ -120,13 +120,13 @@ module.exports = Audiosearch;
 //
 // 8ca0622995fe6e1a0d2e5489cb6d4cfd32f37ab06b119c6f06f7a830656151f1
 
-var audiosearch = new Audiosearch("f36d708e8b87230e853a193c94953251130c9f05808829e7abf484014cf61f09", "8ca0622995fe6e1a0d2e5489cb6d4cfd32f37ab06b119c6f06f7a830656151f1");
+// var audiosearch = new Audiosearch("f36d708e8b87230e853a193c94953251130c9f05808829e7abf484014cf61f09", "8ca0622995fe6e1a0d2e5489cb6d4cfd32f37ab06b119c6f06f7a830656151f1");
 
 // audiosearch.getTastemakers().then(function (tastemakers) {
 //   // do stuff here
 // });
 //
-audiosearch.searchEpisodes('twit').then(function (results) {
-  // do stuff here.
-  console.log(results);
-});
+// audiosearch.searchEpisodes('twit').then(function (results) {
+//   // do stuff here.
+//   console.log(results);
+// });
