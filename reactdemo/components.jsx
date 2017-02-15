@@ -5,7 +5,6 @@ class Header extends React.Component{
 	}
 }
 
-
 class Layout extends React.Component{
 	constructor(){
 		super()
