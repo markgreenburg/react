@@ -19,8 +19,11 @@ export default class Result extends React.Component {
                     }
                 </div>
                 <div class="result-category">
-                    {hasCategories ? 
-                        this.props.result.categories[0].name : "Uncategorized"}
+                    {
+                        hasCategories ? 
+                            this.props.result.categories[0].name : 
+                            "Uncategorized"
+                    }
                 </div>
             </div>
         );
