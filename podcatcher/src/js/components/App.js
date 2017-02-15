@@ -20,11 +20,7 @@ export default class App extends React.Component {
         const formattedUrl = toUrl(searchString);
         axios.get(formattedUrl)
             .then((response) => {
-                const venueList = response.data.response.venues;
-                const venueNames = venueList.map((venue) => {
-                    return venue.name
-                });
-                self.setState({searchResults: venueNames});
+                self.setState({searchResults: response.data.response.venues});
             })
             .catch((err) => err);
 };

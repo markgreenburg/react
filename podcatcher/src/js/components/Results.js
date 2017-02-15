@@ -8,10 +8,10 @@ export default class Results extends React.Component {
 
     render() {
         return (
-            <div class="results">
+            <div class="results container-fluid">
                 {
                     this.props.searchResults.map((result, index) => {
-                        return (<Result listItem={result} key={index} />);
+                        return (<Result result={result} key={index} />);
                     })
                 }
             </div>
