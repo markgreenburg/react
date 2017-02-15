@@ -1,33 +1,40 @@
 import React from "react";
 import Header from "./Header";
 import Footer from "./Footer";
-import Search from "./Search";
+import Results from "./Results";
+import toUrl from "../api";
+const axios = require("axios");
 
 export default class App extends React.Component {
     constructor() {
         super();
         this.state = {
-            importantStuff: ""
+            searchResults: []
         };
+    this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
     }
 
     /* Takes search query from Search.js and runs through API */
     handleSearchSubmit(searchString) {
-        console.log(searchString);
-    }
+        const self = this;
+        const formattedUrl = toUrl(searchString);
+        axios.get(formattedUrl)
+            .then((response) => {
+                const venueList = response.data.response.venues;
+                const venueNames = venueList.map((venue) => {
+                    return venue.name
+                });
+                self.setState({searchResults: venueNames});
+            })
+            .catch((err) => err);
+};
 
     render() {
         return (
             <div>
-                <div class="header">
-                    <Header onSearchSubmit={this.handleSearchSubmit}/>
-                </div>
-                <div class="results-list">
-                    Search Results will go here
-                </div>
-                <div class="footer">
-                    <Footer />
-                </div>
+                <Header onSearchSubmit={this.handleSearchSubmit}/>
+                <Results searchResults={this.state.searchResults}/>
+                <Footer />
             </div>
         );
     }

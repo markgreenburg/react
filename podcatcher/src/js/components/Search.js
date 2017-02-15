@@ -1,6 +1,5 @@
 import React from "react";
 import Results from "./Results";
-// import Api from "./Api";
 
 export default class Main extends React.Component {
     constructor(props) {
@@ -21,14 +20,16 @@ export default class Main extends React.Component {
     /* Pass value of form submit up to header component */
     handleSubmit(event) {
         event.preventDefault();
-        this.props.onSearchSubmit(this.state.searchString);
+        const submittedString = this.state.searchString;
+        this.setState({searchString: ""});
+        this.props.onSearchSubmit(submittedString);
     }
 
     render() {
         return (
             <form class="navbar-form navbar-right" onSubmit={this.handleSubmit}>
                 <div class="form-group">
-                    <input type="text" class="form-control" id="searchString" placeholder="Find Podcasts" value={this.state.searchString} onChange={this.handleChange}/>
+                    <input type="text" class="form-control" id="searchString" placeholder="Find Venues" value={this.state.searchString} onChange={this.handleChange}/>
                     <button type="submit" class="btn btn-primary">Search</button>
                 </div>
             </form>
