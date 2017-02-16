@@ -4,13 +4,27 @@ import React from "react";
 
 class Header extends React.Component {
 	render() {
-		return <div>I am the HEADER</div>;
+		return (
+			<nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="/">CoinFlip</a>
+                </div>
+            </nav>
+		);
 	}
 }
 
 class Footer extends React.Component {
 	render() {
-		return <div>I am the FOOTER</div>;
+		return (
+			<footer class="footer">
+                <div class="container">
+                    <p class="text-muted">
+                        Mark Greenburg | &copy;2016
+                    </p>
+                </div>
+            </footer>
+		);
 	}
 }
 
@@ -18,7 +32,7 @@ class Coin extends React.Component {
 	constructor() {
 		super();
 		this.sides = [ 
-			'http://www.marshu.com/articles/images-website/articles/presidents-on-coins/half-dollar-coin-tail.jpg','http://www.marshu.com/articles/images-website/articles/presidents-on-coins/quarter-coin-head.jpg'
+			'http://www.marshu.com/articles/images-website/articles/presidents-on-coins/quarter-coin-tail.jpg','http://www.marshu.com/articles/images-website/articles/presidents-on-coins/quarter-coin-head.jpg'
 		];
 		this.state = {
 			image: this.sides[1],
@@ -30,19 +44,20 @@ class Coin extends React.Component {
 	flip() {
 		const side = Math.round(Math.random());
 		console.log("coin flipped");
-		this.setState({image: this.sides[side]});
+		this.setState({image: this.sides[side]}, this.props.increment());
 	}
 
 	render() {
 		return (
 			<div class="container">
-				<div class="coin-image">
-					<img src={this.state.image} height="150" width="150" />
+				<div class="coin-image col-xs-10 col-xs-offset-1">
+					<img src={this.state.image} height="506" width="500" />
 				</div>
-				<div class="coin-button">
+				<div class="coin-button col-xs-2 col-xs-offset-4">
 					<button class="btn btn-primary" onClick={this.flip}>
 						Flip
 					</button>
+					<p>(Total: {this.props.flips})</p>
 				</div>
 			</div>
 		);
@@ -53,8 +68,14 @@ export default class Layout extends React.Component {
 	constructor() {
 		super()
 		this.state = {
-			number:3
+			flips: 0
 		};
+		this.increment = this.increment.bind(this);
+	}
+
+	increment() {
+		const flipCount = this.state.flips;
+		this.setState({flips: flipCount + 1});
 	}
 
 	render() {
@@ -62,7 +83,7 @@ export default class Layout extends React.Component {
 			<div>
 				<Header />
 				<div>Flip a coin!</div>
-				<Coin />
+				<Coin increment={this.increment} flips={this.state.flips}/>
 				<Footer />
 			</div>
 		);
