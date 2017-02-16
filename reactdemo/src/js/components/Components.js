@@ -15,15 +15,16 @@ class Footer extends React.Component {
 class Coin extends React.Component {
 	constructor() {
 		super();
-		this.sides = 			['http://www.marshu.com/articles/images-website/articles/presidents-on-coins/half-dollar-coin-tail.jpg','http://www.marshu.com/articles/images-website/articles/presidents-on-coins/quarter-coin-head.jpg'
-		]
+		this.sides = [ 
+			'http://www.marshu.com/articles/images-website/articles/presidents-on-coins/half-dollar-coin-tail.jpg','http://www.marshu.com/articles/images-website/articles/presidents-on-coins/quarter-coin-head.jpg'
+		];
 		this.state = {
-			image: this.sides[Math.round(Math.random());],
+			image: this.sides[Math.round(Math.random())],
 			flipped: false
 		}
 	}
 
-	const flip = () => {
+	flip() {
 		const side = Math.round(Math.random());
 		this.setState({image: this.sides[side]});
 	};
