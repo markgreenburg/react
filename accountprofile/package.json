@@ -1,0 +1,35 @@
+{
+  "name": "accountprofile",
+  "version": "1.0.0",
+  "description": "Authenticated user profile page using React and Express",
+  "main": "webpack.config.js",
+  "scripts": {
+    "dev": "./node_modules/.bin/webpack-dev-server --content-base src --inline --hot",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mark Greenburg",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.15.3",
+    "babel-core": "^6.17.0",
+    "babel-loader": "^6.2.0",
+    "babel-plugin-add-module-exports": "^0.1.2",
+    "babel-plugin-react-html-attrs": "^2.0.0",
+    "babel-plugin-transform-class-properties": "^6.3.13",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "babel-preset-stage-0": "^6.3.13",
+    "bcrypt": "^1.0.2",
+    "bluebird": "^3.4.7",
+    "events": "^1.0.2",
+    "mongoose": "^4.8.1",
+    "promise": "^7.0.4",
+    "react": "^0.14.6",
+    "react-dom": "^0.14.6",
+    "request": "^2.61.0",
+    "webpack": "^1.12.9",
+    "webpack-dev-server": "^1.14.1"
+  },
+  "devDependencies": {}
+}
