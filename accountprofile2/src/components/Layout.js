@@ -22,7 +22,6 @@ export default class Layout extends React.Component {
 
     handleLogin(state) {
       const self = this;
-      console.log(state.email, state.password);
       axios.post('/login', {
         email: state.email,
         password: state.password
@@ -37,7 +36,6 @@ export default class Layout extends React.Component {
     }
 
     handleLogout() {
-        console.log("User logged out");
         this.setState({authenticated: false});
     }
 

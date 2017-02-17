@@ -42,13 +42,13 @@ export default class Profile extends React.Component {
                 <img src={this.props.user.avatar} />
                 <form className="form" onSubmit={this.handleUserUpdate}>
                     <div className="form-group">
-                        <input type="text" className="form-control" id="userFirst" value={this.state.user.firstName} required onChange={this.handleFirstNameChange}/>
-                        <input type="text" className="form-control" id="userLast" value={this.state.user.lastName} required onChange={this.handleLastNameChange} />
+                        <input type="text" className="form-control" id="userFirst" value={this.state.user.fName} required onChange={this.handleFirstNameChange}/>
+                        <input type="text" className="form-control" id="userLast" value={this.state.user.lName} required onChange={this.handleLastNameChange} />
                         <input type="email" className="form-control" id="userEmail" value={this.state.user.email} required onChange={this.handleEmailChange} />
                         <button type="submit" className="btn btn-primary">Update</button>
                     </div>
                 </form>
-                Hi, {this.props.user.firstName}!</div>
+            </div>
         );
     }
 }

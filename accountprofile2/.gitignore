@@ -38,3 +38,13 @@ jspm_packages
 
 # Babel cache directory
 babel_cache
+
+# DB Configs
+config.js
+
+# VS Code
+*.vscode
+*.editorconfig
+
+# Linter
+*.eslintrc.json

@@ -4,7 +4,7 @@
  */
 
 /* Initialize DB and settings */
-const config = require("../config");
+const config = require("./config");
 const bcrypt = require('bcrypt');
 const bluebird = require('bluebird');
 const mongoose = require('mongoose');
@@ -19,7 +19,9 @@ const userSchema = new Schema({
     lName: { type: String, required: true },
     email: { type: String, unique: true, required: true },
     password: {type: String, required: true },
-    avatar: { type: String, required: true }
+    avatar: { type: String, required: true },
+    created: { type: Date, required: true },
+    lastUpdated: { type: Date, required: true }
 });
 
 /* User model */
@@ -40,40 +42,63 @@ const getUser = (userId, callback) => {
         });
 };
 
-const loginUser = (req, res) => {
-    mongoose.connect();
+const loginUser = (email, password, callback) => {
+    mongoose.connect(config.mongoConfigs.db);
     // Find user in db with matching email
-    User.findOne({email: req.body.email})
+    User.findOne({email: email})
         .then((result) => {
             mongoose.disconnect();
             // Compare hashed passwords
-            bcrypt.compare(req.body.password, result.password, (err, resolve) => {
+            bcrypt.compare(password, result.password, (err, resolve) => {
                 // Send back user data if passwords match else empty data object
                 if (resolve === true) {
                     // To-Do: set auth in session
-                    res.json({
-                        "message": "User logged in successfully",
-                        "data": result,
-                        "success": true
-                    });
+                    callback(result);
                 } else {
-                    res.json({
-                        "message": "Could not log in",
-                        "data": {},
-                        "success": false
-                    });
+                    callback({});
                 }
-            })
+            });
         })
         .catch((err) => {
             mongoose.disconnect();
             console.log(err);
-            res.json({
-                "message": "Could not log in",
-                "data": {},
-                "success": false
-            });
+            callback({});
         });
 }
 
+/* Create a new user in db (email as unique constraint) */
+const createUser = (request, callback) => {
+    let newUser = new User();
+    newUser.fName = request.body.fName;
+    newUser.lName = request.body.lName;
+    newUser.email = request.body.email;
+    newUser.avatar = request.body.avatar;
+    newUser.created = new Date();
+    newUser.lastUpdated = newUser.created;
+    // Hash password input
+    bcrypt.hash(request.body.password, 10, (err, hash) => {
+        if (err) {
+            console.log(err);
+        }
+        newUser.password = hash;
+        mongoose.connect(config.mongoConfigs.db);
+        // If hash succeeds, save new user to db
+        newUser.save()
+            .then((result) => {
+                mongoose.disconnect();
+                callback(result);
+            })
+            .catch((err) => {
+                mongoose.disconnect();
+                console.log(err);
+                callback({});
+            });
+    });
+};
 
+module.exports = {
+    User: User,
+    getUser: getUser,
+    loginUser: loginUser,
+    createUser: createUser
+};

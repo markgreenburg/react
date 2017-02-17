@@ -7,15 +7,10 @@ import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 import routes from './routes';
 import NotFoundPage from './components/NotFoundPage';
+const user = require('./models/user');
+
 // Import body parser to parse API requests
 const bodyParser = require('body-parser');
-// Import bcrypt to hash and test user passwords
-const bcrypt = require('bcrypt');
-
-// Initialize DB connector and set Promise library
-const mongoose = require("mongoose");
-const bluebird = require('bluebird');
-mongoose.Promise = bluebird;
 
 // initialize the server and configure support for ejs templates
 const app = new Express();
@@ -26,25 +21,49 @@ app.set('views', path.join(__dirname, 'views'));
 // define the folder that will be used for static assets
 app.use(Express.static(path.join(__dirname, 'static')));
 
-
 // Mount bodyParser
 app.use(bodyParser.json());
+
+/**
+ * Routes
+ */
+
 /* Test submitted credentials against DB and return user object if authorized */
-app.post("/login",function(req,res) {
-    const submittedEmail = req.body.email;
-    const submittedPassword = req.body.password;
-    
-    const user = {
-        firstName: "Janice",
-        lastName: "Bobson",
-        email: "janice@me.com",
-        avatar: "http://i.pravatar.cc/300"
-    };
-    res.json({
-      "message": "logged in successfully",
-      "data": user,
-      "success": true
-    });
+app.post("/login", (req, res) => {
+  user.loginUser(req.body.email, req.body.password, (result) => {
+    if (Object.keys(result).length > 0) {
+      res.json({
+        "message": "User logged in successfully",
+        "data": result,
+        "success": true
+      });
+    } else {
+      res.json({
+        "message": "Could not log in",
+        "data": result,
+        "success": false
+      });
+    }
+  });
+});
+
+/* Create a new user record in the db */
+app.post("/create", (req, res) => {
+  user.createUser(req, (result) => {
+    if (Object.keys(result).length > 0) {
+      res.json({
+        "message": "User created successfully",
+        "data": result,
+        "success": true
+      });
+    } else {
+      res.json({
+        "message": "Could not create user",
+        "data": result,
+        "success": false
+      });
+    }
+  });
 });
 
 // universal routing and rendering
