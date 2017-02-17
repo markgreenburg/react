@@ -66,6 +66,27 @@ app.post("/create", (req, res) => {
   });
 });
 
+/* Update user name & avatar */
+app.post("/update", (req, res) => {
+  const updatedUserInfo = req.body;
+  console.log(updatedUserInfo);
+  user.updateUser(updatedUserInfo, (result) => {
+    if (Object.keys(result).length > 0) {
+      res.json({
+        "message": "User updated successfully",
+        "data": result,
+        "success": true
+      });
+    } else {
+      res.json({
+        "message": "Could not update user",
+        "data": result,
+        "success": false
+      });
+    }
+  })
+})
+
 // universal routing and rendering
 app.get('*', (req, res) => {
     console.log("req.url: "  + req.url);

@@ -9,25 +9,25 @@ export default class Profile extends React.Component {
         };
         this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
         this.handleLastNameChange = this.handleLastNameChange.bind(this);
-        this.handleEmailChange = this.handleEmailChange.bind(this);
+        this.handleAvatarChange = this.handleAvatarChange.bind(this);
         this.handleUserUpdate = this.handleUserUpdate.bind(this);
     }
 
        handleFirstNameChange(event){
         let currentInfo = this.state.user;
-        currentInfo.firstName = event.target.value;
+        currentInfo.fName = event.target.value;
         this.setState({user: currentInfo}, () => console.log(this.state.user));
     }
 
        handleLastNameChange(event){
         let currentInfo = this.state.user;
-        currentInfo.lastName = event.target.value;
+        currentInfo.lName = event.target.value;
         this.setState({user: currentInfo}, () => console.log(this.state.user));
     }
 
-       handleEmailChange(event){
+       handleAvatarChange(event){
         let currentInfo = this.state.user;
-        currentInfo.email = event.target.value;
+        currentInfo.avatar = event.target.value;
         this.setState({user: currentInfo}, () => console.log(this.state.user));
     }
 
@@ -44,7 +44,8 @@ export default class Profile extends React.Component {
                     <div className="form-group">
                         <input type="text" className="form-control" id="userFirst" value={this.state.user.fName} required onChange={this.handleFirstNameChange}/>
                         <input type="text" className="form-control" id="userLast" value={this.state.user.lName} required onChange={this.handleLastNameChange} />
-                        <input type="email" className="form-control" id="userEmail" value={this.state.user.email} required onChange={this.handleEmailChange} />
+                        <input type="text" className="form-control" id="userAvatar" value={this.state.user.avatar} required onChange={this.handleAvatarChange} />
+                        <p>Email: {this.state.user.email}</p>
                         <button type="submit" className="btn btn-primary">Update</button>
                     </div>
                 </form>

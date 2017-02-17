@@ -96,9 +96,36 @@ const createUser = (request, callback) => {
     });
 };
 
+const updateUser = (user, callback) => {
+    mongoose.connect(config.mongoConfigs.db);
+    User.findOneAndUpdate(
+        // Find user by ID
+        {_id: user._id},
+        // Set user details to new details
+        { $set: {
+            fName: user.fName,
+            lName: user.lName,
+            avatar: user.avatar
+            }
+        },
+        // Return the new user info from db
+        { new: true }
+    )
+        .then((result) => {
+            mongoose.disconnect();
+            callback(result);
+        })
+        .catch((err) => {
+            mongoose.disconnect();
+            console.log(err);
+            callback({});
+        });
+}
+
 module.exports = {
     User: User,
     getUser: getUser,
     loginUser: loginUser,
-    createUser: createUser
+    createUser: createUser,
+    updateUser: updateUser
 };

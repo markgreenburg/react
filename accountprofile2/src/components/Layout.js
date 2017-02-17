@@ -45,7 +45,16 @@ export default class Layout extends React.Component {
     }
 
     handleUserUpdate(user){
-        console.log(user.firstName, user.lastName, user.email);
+        const self = this;
+        axios.post('/update', user)
+            .then((response) => {
+                if (response.data.success) {
+                    self.setState({userInfo: response.data.data});
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
 
     render() {
