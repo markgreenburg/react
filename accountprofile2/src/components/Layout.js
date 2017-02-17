@@ -27,7 +27,12 @@ export default class Layout extends React.Component {
         password: state.password
         })
         .then((response) => {
-          self.setState({authenticated: true, userInfo: response.data.data});
+            if (response.data.success) {
+                self.setState({
+                    authenticated: true,
+                    userInfo: response.data.data
+                });
+            }
         })
         .catch((err) => {
           console.log(err);
