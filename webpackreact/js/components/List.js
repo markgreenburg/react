@@ -3,7 +3,11 @@ import React from "react";
 export default class List extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { goog: 0, };
+        this.state = { 
+            goog: 0,
+            aapl: 0,
+            fb: 0,
+         };
     }
 
     componentDidMount() {
@@ -15,11 +19,9 @@ export default class List extends React.Component {
 
     render() {
         return (
-            <ul>
-                <li>Goog: {this.state.goog}</li>
-                <li>two</li>
-                <li>three</li>
-            </ul>
+            <div>
+                <p> Current GOOG stock price: ${this.state.goog}</p>
+            </div>
         );
     }
 }

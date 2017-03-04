@@ -6,8 +6,7 @@ class Demo extends React.Component {
     render() {
         return (
             <div>
-                I am a React component!!!
-                Here's a list:
+                React Stocks
                 <List />
             </div>
         );
