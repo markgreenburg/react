@@ -3,11 +3,7 @@ import React from "react";
 export default class List extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { 
-            goog: 0,
-            aapl: 0,
-            fb: 0,
-         };
+        this.state = { goog: 0, };
     }
 
     componentDidMount() {
