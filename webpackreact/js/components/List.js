@@ -11,15 +11,21 @@ export default class List extends React.Component {
     }
 
     componentDidMount() {
-        $.ajax({
-            type: "POST",
-            url: 'http://dev.markitondemand.com/MODApis/Api/v2/Quote/jsonp?symbol=goog&jsoncallback=callback',
-            dataType: 'jsonp',
-            success: (response) => {
-                this.setState({goog: response.LastPrice});
-            },
-            error: (err) => console.log(err)
-        })
+        fetch("http://dev.markitondemand.com/MODApis/Api/v2/Quote/json?symbol=goog")
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    console.log("There was a problem getting stock price. Status Code: " + response.status);
+                }
+            })
+            .then((data) => {
+                console.log(data);
+                this.setState({goog: data.LastPrice});
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
 
     render() {
