@@ -39,12 +39,6 @@ class App extends Component {
             })
             .catch((err) => console.log(err));
         }
-
-    // Sets the active channel to whatever channel was clicked on in the channel list
-    setActiveChannel(id) {
-        this.setState({activeChannel: id});
-        console.log(this.state.activeChannel);
-    }
   
     render() {
       if (this.state.activeChannel && this.state.teamUsers) {
@@ -71,6 +65,12 @@ class App extends Component {
           <div>Loading Results...</div>
         );
       }
+    }
+
+    // Sets the active channel to whatever channel was clicked on in the channel list
+    setActiveChannel(id) {
+        this.setState({activeChannel: id});
+        console.log(this.state.activeChannel);
     }
 }
 

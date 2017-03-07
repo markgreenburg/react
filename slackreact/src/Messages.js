@@ -1,5 +1,6 @@
 import React from 'react';
 import Message from './Message';
+import Input from './Input';
 import { token } from '../config';
 
 export default class Messages extends React.Component {
@@ -24,15 +25,16 @@ export default class Messages extends React.Component {
     userIdToName(id) {
         return this.props.teamUsers.forEach((user) => {
             if (user.id === id) {
+                console.log("found author:", user.name);
                 return user.name;
             }
         })
     }
 
     render() {
-            console.log("Messages getting rendered!");
-            if (this.state.messages) {
-                return(
+        if (this.state.messages) {
+            return(
+                <div>
                     <div>
                         {this.state.messages.map((message, index) => {
                             return <Message key={index}
@@ -42,16 +44,21 @@ export default class Messages extends React.Component {
                             }
                         )}
                     </div>
-                );
-            } else {
-                return (
-                    <div>Loading...</div>
-                );
-            }
+                    <Input activeChannel={this.props.activeChannel}
+                            fetchMessages={this.fetchMessages}
+                    />
+                </div>
+            );
+        } else {
+            return (
+                <div>Loading...</div>
+            );
+        }
     }
 
-    fetchMessages () {
-        // Fetch last 100 messages for given channel, write them to state
+    /* Fetch last 100 messages for given channel, write them to state */
+    fetchMessages() {
+        console.log("fetching messages...");
         const baseUrl = "https://slack.com/api/channels.history?token=";
         fetch(baseUrl + token + "&channel=" + this.props.activeChannel)
             .then((result) => result.json())
