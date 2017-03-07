@@ -4,7 +4,7 @@ export default class Message extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            userName: "Unknown"
+            userName: ""
         }
     }
 
@@ -18,20 +18,25 @@ export default class Message extends React.Component {
     }
 
     render() {
-        console.log("author:", this.props.author);
-        return (
-            <ul>
-                <li>
-                    {this.state.userName}
-                </li>
-                <li>
-                    {this.props.text}
-                </li>
-                <li>
-                    {this.props.time}
-                </li>
-                <br />
-            </ul>
-        );
+        if (this.state.userName) {
+            return (
+                <ul>
+                    <li>
+                        {this.state.userName}
+                    </li>
+                    <li>
+                        {this.props.text}
+                    </li>
+                    <li>
+                        {this.props.time}
+                    </li>
+                    <br />
+                </ul>
+            );
+        } else {
+            return (
+                <div>Unsupported Message Type</div>
+            );
+        }
     }
 }
