@@ -7,7 +7,9 @@ export default class Channel extends React.Component {
 
     render() {
         return(
-            <li onClick={() => this.props.setActiveChannel(this.props.channelid)}>{this.props.channelname}</li>
+            <li onClick={() => this.props.setActiveChannel(this.props.channelid)}>
+                {this.props.channelname}
+            </li>
         );
     }
 }

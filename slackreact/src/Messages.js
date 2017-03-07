@@ -1,38 +1,29 @@
 import React from 'react';
 import Message from './Message';
+import { token } from '../config';
 
 export default class Messages extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            messages: [],
-        }
+            messages: []
+        };
+        // Bind helper functions
         this.userIdToName = this.userIdToName.bind(this);
-        
+        this.fetchMessages = this.fetchMessages.bind(this);
     }
 
-    componentWillMount() {
-        // Fetch last 100 messages for this channel
-        console.log('active channel is:');
-        console.log(this.props.activeChannel);
-        const baseUrl = "https://slack.com/api/channels.history?token=xoxp-5213863414-110434677206-149596640240-34e3afbe892d74401312cf73da136e88&pretty=1&channel="
-        fetch(baseUrl + this.props.activeChannel)
-            .then((result) => result.json())
-            .then((jsonResults) => {
-                console.log('json results:');
-                console.log(jsonResults);
-                let messageList = jsonResults.messages.map((message) => {
-                    return {author: message.user, text: message.text, time: message.ts}
-                });
-                this.setState({messages: messageList});
-            })
-            .catch((err) => console.log(err));
+    componentDidMount() {
+        this.fetchMessages();
+    }
+
+    componentWillReceiveProps() {
+        this.fetchMessages();
     }
 
     userIdToName(id) {
         return this.props.teamUsers.forEach((user) => {
-            if (user.id == id) {
-                console.log(user.name);
+            if (user.id === id) {
                 return user.name;
             }
         })
@@ -40,16 +31,36 @@ export default class Messages extends React.Component {
 
     render() {
             console.log("Messages getting rendered!");
-            return(
-                <div>
-                    {this.state.messages.map((message, index) => {
-                        return <Message key={index}
-                                author={this.userIdToName(message.author)}
-                                text={message.text}
-                                time={message.time} />;
-                        }
-                    )}
-                </div>
-            );
+            if (this.state.messages) {
+                return(
+                    <div>
+                        {this.state.messages.map((message, index) => {
+                            return <Message key={index}
+                                    author={this.userIdToName(message.author)}
+                                    text={message.text}
+                                    time={message.time} />;
+                            }
+                        )}
+                    </div>
+                );
+            } else {
+                return (
+                    <div>Loading...</div>
+                );
+            }
+    }
+
+    fetchMessages () {
+        // Fetch last 100 messages for given channel, write them to state
+        const baseUrl = "https://slack.com/api/channels.history?token=";
+        fetch(baseUrl + token + "&channel=" + this.props.activeChannel)
+            .then((result) => result.json())
+            .then((jsonResults) => {
+                let messageList = jsonResults.messages.map((message) => {
+                    return {author: message.user, text: message.text, time: message.ts}
+                });
+                this.setState({messages: messageList});
+            })
+            .catch((err) => console.log(err));
     }
 }

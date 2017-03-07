@@ -1,23 +1,25 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { token } from '../config';
 import Channels from './Channels';
 import Messages from './Messages';
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      channels: [],
-      activeChannel: "",
-      teamUsers: [],
+    constructor() {
+        super();
+        this.state = {
+          channels: [],
+          activeChannel: "",
+          teamUsers: [],
+        };
+        // Bind helper methods
+        this.setActiveChannel = this.setActiveChannel.bind(this);
     }
-    this.setActiveChannel = this.setActiveChannel.bind(this);
-  }
 
-    componentWillMount() {
+    componentDidMount() {
         // Grab user's channel list, set active channel to the first channel in the list
-        fetch("https://slack.com/api/channels.list?token=xoxp-5213863414-110434677206-149596640240-34e3afbe892d74401312cf73da136e88&pretty=1")
+        fetch("https://slack.com/api/channels.list?token=" + token)
             .then((result) => result.json())
             .then((jsonResults) => {
                 let channelList = jsonResults.channels.map((channel) => {
@@ -25,29 +27,25 @@ class App extends Component {
                 });
                 this.setState({channels: channelList, activeChannel: channelList[0].channelid});
             })
+            .catch((err) => console.log(err));
         // Grab user names so that we can push them down through props and display names next to each rendered message
-            .then(() => {
-              fetch("https://slack.com/api/users.list?token=xoxp-5213863414-110434677206-149596640240-34e3afbe892d74401312cf73da136e88&pretty=1")
-                  .then((result) => result.json())
-                  .then((jsonResults) => {
-                      let membersList = jsonResults.members.map((member) => {
-                          return {name: member.name, id: member.id, img: member.profile.image_32};
-                      });
-                      this.setState({teamUsers: membersList});
-                      console.log("app-level state:");
-                      console.log(this.state);
-                  })
-                  .catch((err) => console.log(err));
+        fetch("https://slack.com/api/users.list?token=" + token)
+            .then((result) => result.json())
+            .then((jsonResults) => {
+                let membersList = jsonResults.members.map((member) => {
+                    return {name: member.name, id: member.id, img: member.profile.image_32};
+                });
+                this.setState({teamUsers: membersList});
             })
-            .catch((err) => {
-              console.log(err);
-            });
-    }
+            .catch((err) => console.log(err));
+        }
 
+    // Sets the active channel to whatever channel was clicked on in the channel list
     setActiveChannel(id) {
         this.setState({activeChannel: id});
+        console.log(this.state.activeChannel);
     }
-    
+  
     render() {
       if (this.state.activeChannel && this.state.teamUsers) {
         return (
