@@ -10,7 +10,6 @@ export default class Messages extends React.Component {
             messages: []
         };
         // Bind helper functions
-        this.userIdToName = this.userIdToName.bind(this);
         this.fetchMessages = this.fetchMessages.bind(this);
     }
 
@@ -22,15 +21,6 @@ export default class Messages extends React.Component {
         this.fetchMessages();
     }
 
-    userIdToName(id) {
-        return this.props.teamUsers.forEach((user) => {
-            if (user.id === id) {
-                console.log("found author:", user.name);
-                return user.name;
-            }
-        })
-    }
-
     render() {
         if (this.state.messages) {
             return(
@@ -38,9 +28,11 @@ export default class Messages extends React.Component {
                     <div>
                         {this.state.messages.map((message, index) => {
                             return <Message key={index}
-                                    author={this.userIdToName(message.author)}
+                                    teamUsers={this.props.teamUsers}
+                                    userId={message.userid}
                                     text={message.text}
-                                    time={message.time} />;
+                                    time={message.time} 
+                            />;
                             }
                         )}
                     </div>
@@ -64,7 +56,7 @@ export default class Messages extends React.Component {
             .then((result) => result.json())
             .then((jsonResults) => {
                 let messageList = jsonResults.messages.map((message) => {
-                    return {author: message.user, text: message.text, time: message.ts}
+                    return {userid: message.user, text: message.text, time: message.ts}
                 });
                 this.setState({messages: messageList});
             })
