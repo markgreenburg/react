@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
 import { token } from '../config';
 import Channels from './Channels';
 import Messages from './Messages';
@@ -13,8 +11,6 @@ class App extends Component {
           activeChannel: "",
           teamUsers: [],
         };
-        // Bind helper methods
-        this.setActiveChannel = this.setActiveChannel.bind(this);
     }
 
     componentDidMount() {
@@ -45,12 +41,8 @@ class App extends Component {
         return (
           <div className="App">
             <div className="App-header">
-              <img src={logo} className="App-logo" alt="logo" />
-              <h2>Welcome to React</h2>
+                Welcome to the World's Worst Slack Clone (tm)
             </div>
-            <p className="App-intro">
-              To get started, edit <code>src/App.js</code> and save to reload.
-            </p>
             <Channels setActiveChannel={this.setActiveChannel}
                     channelList={this.state.channels}
                     activeChannel={this.state.activeChannel}
@@ -65,12 +57,6 @@ class App extends Component {
           <div>Loading Results...</div>
         );
       }
-    }
-
-    // Sets the active channel to whatever channel was clicked on in the channel list
-    setActiveChannel(id) {
-        this.setState({activeChannel: id});
-        console.log(this.state.activeChannel);
     }
 }
 

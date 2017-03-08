@@ -11,7 +11,6 @@ export default class Channels extends React.Component {
             <ul>
                 {this.props.channelList.map((channel) => {
                     return <Channel key={channel.channelid}
-                            setActiveChannel={this.props.setActiveChannel} 
                             channelid={channel.channelid} 
                             channelname={channel.channelname} />;
                 })}
